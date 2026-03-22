@@ -1,3 +1,6 @@
+# Notes for instructor (Eli.D)
+This README.md file was created using AI
+
 # Inventory Manager
 
 A Python-based command-line application for managing airplane system inventory. This application allows users to create, read, update, and delete inventory records for different airplane models and their associated systems.
@@ -206,26 +209,4 @@ Potential improvements for future versions:
 
 - All data is stored in JSON format for simplicity and portability
 - Changes made during a session are stored in `dummy_data.json` but won't affect `data_base.json` until explicitly committed
-- The application performs confirmation prompts for destructive operations (delete, commit)
-
-## Troubleshooting
-
-### Issue: No data displayed
-- Ensure `dummy_data.json` exists in the same directory as `main.py`
-- Verify the JSON files are not corrupted
-
-### Issue: Changes not saved
-- Remember to use the "Commit Data" option to save changes permanently
-- Changes are only saved to `dummy_data.json` until you commit
-
-### Issue: Application crashes
-- Ensure Python 3.7+ is installed
-- Check that the JSON data files are properly formatted
-
-## Author
-
-Developed as part of DevOps training and inventory management system practice.
-
-## License
-
-This project is provided as-is for educational purposes.
+- The application performs confirmation prompts for destructive operations 
