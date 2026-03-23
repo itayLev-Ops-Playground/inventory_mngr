@@ -1,5 +1,5 @@
 # Notes for instructor (Eli.D)
-This README.md file was created using AI
+This README.md file was enhanced using AI
 
 # Contribution
 
