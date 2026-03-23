@@ -1,6 +1,12 @@
 # Notes for instructor (Eli.D)
 This README.md file was created using AI
 
+# Contribution
+
+- Inventory alerts/warnings for low stock
+- Export inventory to CSV/Excel formats
+- Improve display feature to include difference in percentage
+
 # Inventory Manager
 
 A Python-based command-line application for managing airplane system inventory. This application allows users to create, read, update, and delete inventory records for different airplane models and their associated systems.
