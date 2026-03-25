@@ -1,3 +1,0 @@
-- turn system and model options to work with menu numbers
-- enhance data validation
-- turn show_XXXXX_options functions to return list
