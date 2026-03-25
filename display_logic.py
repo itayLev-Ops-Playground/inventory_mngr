@@ -2,7 +2,8 @@
 # Includes functions to retrieve and display system inventories by various criteria.
 
 from helpers import get_dummy_data as get_dummy_data
-from helpers import get_systems_keys as get_systems_keys
+from helpers import get_systems_options as get_systems_options
+from helpers import get_models_options as get_models_options
 
 
 def get_system_inventory_all(system):
@@ -41,10 +42,12 @@ def display_system_inventory_all(system):
     Args:
         system (str): The name of the system to display.
     """
-    inventory = get_system_inventory_all(system)
+    system_options = get_systems_options()
+    print(get_systems_options()[system])
+    inventory = get_system_inventory_all(system_options[system])
     for model in inventory:
         message = ""
-        title = f"Inventory status for {model['model']} {model['system']}"
+        title = f"Inventory status for {model['model']} {system_options[system]}" # {model['system']}"
         print(f"\n\n{'=' * len(title)}\n{title}\n{'=' * len(title)}")
         message += f"""
 AVAILABLE: {model['available']}
@@ -54,6 +57,7 @@ NET-REQ: {model['net-req']}"""
     print('\n'+'-' * 45)
 # display_system_inventory_all('engine')
 # display_system_inventory_all('landing-gear')
+# display_system_inventory_all(0)
 
 
 def get_system_inventory_by_model(model, system):
@@ -67,17 +71,20 @@ def get_system_inventory_by_model(model, system):
     Returns:
         dict: A dictionary with model, system, and inventory properties.
     """
+    models_options = get_models_options()
+    systems_options = get_systems_options()
     inventory = {}
     for cur_model in get_dummy_data():
-        if cur_model['model'] == model:
+        if cur_model['model'] == models_options[model]:
             inventory['model'] = cur_model['model']
-            if system in cur_model['systems']:
-                inventory['system'] = system
-                for property, status in cur_model['systems'][system].items():
+            cur_system = systems_options[system]
+            if cur_system in cur_model['systems']:
+                inventory['system'] = cur_system
+                for property, status in cur_model['systems'][cur_system].items():
                     inventory[property] = status
-            if system in cur_model['systems']['peripheral-systems']:
-                inventory['system'] = system
-                for property, status in cur_model['systems']['peripheral-systems'][system].items():
+            if cur_system in cur_model['systems']['peripheral-systems']:
+                inventory['system'] = cur_system
+                for property, status in cur_model['systems']['peripheral-systems'][cur_system].items():
                     inventory[property] = status
     return inventory
 # get_system_inventory_by_model('f-15', 'landing-gear')
@@ -123,7 +130,7 @@ Airplane {model}:
 Systems list:
 {'=' * len("Main parts list:")}
 """
-    for system in get_systems_keys():
+    for system in get_systems_options():
         parts_msg += f"\t- {system}\n"
 
     print(parts_msg)
@@ -142,8 +149,10 @@ def get_all_systems_inventory_by_model(model):
     """
     inventory = {}
     data = get_dummy_data()
+    model_options = get_models_options()
+    model -= 1
     for cur_model in data:
-        if cur_model['model'] == model:
+        if cur_model['model'] == model_options[model]:
             inventory['model'] = cur_model['model']
             # print(cur_model)
             for system, cur_inventory in cur_model['systems'].items():
@@ -167,7 +176,9 @@ def display_all_systems_inventory_by_model(model):
     Args:
         model (str): The airplane model.
     """
+    # model_options = get_models_options()
     data = get_all_systems_inventory_by_model(model)
+
     message = """
 """
     for property, info in data.items():
@@ -187,11 +198,13 @@ def display_all_systems_inventory_for_all_airplanes():
     """
     Displays all systems inventory for all airplane models.
     """
-    data = get_dummy_data()
-    for i in range(len(data)):
-        model = data[i]['model']
-        display_all_systems_inventory_by_model(model)
-        i += 1
+
+    model_options = get_models_options()
+
+    for i in range(len(model_options)):
+        display_all_systems_inventory_by_model(i)
+        i += 1        
+
     print('\n'+'-' * 45)
 # display_all_systems_inventory_for_all_airplanes()
 

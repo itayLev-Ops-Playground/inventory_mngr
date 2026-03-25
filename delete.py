@@ -4,8 +4,28 @@
 from helpers import intake_user_choice as intake_user_choice
 from helpers import intake_system as intake_system
 from helpers import intake_airplane_model as intake_airplane_model
+from helpers import show_model_options as show_model_options
+from helpers import show_system_options as show_system_options
+from helpers import get_models_options as get_models_options
+from helpers import get_systems_options as get_systems_options
 from helpers import get_dummy_data as get_dummy_data
 from helpers import set_dummy_data as set_dummy_data
+
+
+def get_delete_menu_options():
+    """
+    Return the list of delete menu options.
+
+    Returns:
+        list[str]: Three menu items for deleting models, systems, or returning to main.
+    """
+    options = [
+        "Delete airplane model",
+        "Delete system",
+        "Back to main menu"        
+    ]
+    return options
+
 
 def render_delete_menu():
     """
@@ -16,13 +36,16 @@ def render_delete_menu():
     """
     menu_title = "DELETE MENU"
     length = len(menu_title)
-    menu = f"""
+    message = f"""
 \n{'=' * length}\n{menu_title}\n{'=' * length}
-1. Delete airplane model
-2. Delete system
-3. Back to main menu
 """
-    return menu
+    i = 1
+    for option in get_delete_menu_options():
+        message += f"\n{i}. {option}"
+        i += 1
+
+    return message
+
 
 def show_delete_menu():
     """
@@ -33,64 +56,77 @@ def show_delete_menu():
 
 def delete_model(model):
     """
-    Deletes an airplane model from the dummy data.
+    Delete an airplane model from the dummy data.
 
     Args:
-        model (str): The name of the airplane model to delete.
+        model (int): 1-based menu index of the airplane model to delete.
 
     Prompts for confirmation before deletion.
     """
     data = get_dummy_data()
-    # print(data)
+    models_options = get_models_options()
     del_indx = ''
+    model -= 1
+
     for i in range(len(data)):
-        if data[i]['model'] == model:
+        if data[i]['model'] == models_options[model]:
             del_indx = i
         i += 1
-    input(f"Are you sure you want to delete {model} from dummy-data?\nEnter y for yes or enter to abort: ")
-    del data[del_indx]
-    set_dummy_data(data)
-# delete_model('f-15')
-# print(get_dummy_data())
+
+    approve_choice = input(f"Are you sure you want to delete {models_options[model]} from dummy-data?\nEnter Yes for yes or enter to abort: ").lower()
+
+    if approve_choice == 'yes':
+        del data[del_indx]
+        set_dummy_data(data)
+    else:
+        print("Aborted by the user")
 
 
 def delete_system(model, system):
     """
-    Deletes a system from a specific airplane model.
+    Delete a system from a specific airplane model.
 
     Args:
-        model (str): The airplane model from which to delete the system.
-        system (str): The name of the system to delete.
+        model (int): 1-based menu index of the airplane model.
+        system (int): 1-based menu index of the system to delete.
 
     Handles both main systems and peripheral systems.
     """
     data = get_dummy_data()
+    models_options = get_models_options()
+    systems_options = get_systems_options()
     is_peripheral = False
     del_indx = ''
     del_key = ''
+    model -= 1
+    system -= 1
+
     for i in range(len(data)):
-        if data[i]['model'] == model:
+        if data[i]['model'] == models_options[model]:
             for cur_system in data[i]['systems']:
                 if cur_system == 'peripheral-systems':
                     for cur_system in data[i]['systems']['peripheral-systems']:
-                        if cur_system == system:
+                        if cur_system == systems_options[system]:
                             is_peripheral = True
                             del_indx = i
                             del_key = cur_system
                 else:
-                    if cur_system == system:
+                    if cur_system == systems_options[system]:
                         is_peripheral = False
                         del_indx = i
                         del_key = cur_system
-    input(f"Are you sure you want to delete {model} {system} from dummy-data?\nEnter y for yes or enter to abort: ")
-    if is_peripheral:
-        del data[del_indx]['systems']['peripheral-systems'][del_key]
+
+    approve_choice = input(f"Are you sure you want to delete {models_options[model]} {systems_options[system]} from dummy-data?\nEnter Yes for yes or enter to abort: ").lower()
+
+    if approve_choice == 'yes':
+        if is_peripheral:
+            del data[del_indx]['systems']['peripheral-systems'][del_key]
+            set_dummy_data(data)
+        else:
+            del data[del_indx]['systems'][del_key]
+            set_dummy_data(data)
     else:
-        del data[del_indx]['systems'][del_key]
-        
-    set_dummy_data(data)
-# delete_system('f-15', 'air-frame')
-# print(get_dummy_data())
+        print("Aborted by the user")
 
 
 def delete_menu():
@@ -101,21 +137,24 @@ def delete_menu():
     while delete_menu_on:
         
         show_delete_menu()
-
-        delete_menu_user_choice = intake_user_choice()
+        menu = get_delete_menu_options()
+        delete_menu_user_choice = intake_user_choice(menu)
     
-        if delete_menu_user_choice == 1:
-            # Delete airplane model
+        if delete_menu_user_choice == 1: # Delete model
             model = intake_airplane_model()
+
             delete_model(model)
         
-        if delete_menu_user_choice == 2: 
-            # Delete system from model
+        if delete_menu_user_choice == 2: # Delete system
             model = intake_airplane_model()
+
+            show_system_options()
             system = intake_system()
+
             delete_system(model, system)
 
         if delete_menu_user_choice == 3:
             delete_menu_on = False
             msg = "Returning to main menu"
             print(f"\n{'-' * 30} {msg} {'-' * 30}")
+            

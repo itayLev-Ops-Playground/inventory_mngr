@@ -1,6 +1,18 @@
 # Module for rendering menu strings.
 # Contains functions to generate formatted menu text for various application menus.
 
+def get_main_menu_options():
+    options_list = [
+    "1. Display data",
+    "2. Update data",
+    "3. Add new data",
+    "4. Delete data",
+    "5. Commit data",
+    "6. Exit program"
+    ]
+    
+    return options_list
+
 def generate_main_menu():
     """
     Generates the main menu as a formatted string.
@@ -8,19 +20,26 @@ def generate_main_menu():
     Returns:
         str: The main menu string.
     """
-    menu_title = "MAIN MENU"
-    length = len(menu_title)
-    menu = f"""
-\n{'=' * length}\n{menu_title}\n{'=' * length}
-1. Display data -> 1. display cache, 2. display data base
-2. Update data
-3. Add new data
-4. Delete data
-5. Commit data
-6. Exit program
-"""
-    return menu
 
+    title = "MAIN MENU"
+    message = f"""
+{'=' * len(title)}
+{title}
+{'=' * len(title)}
+
+"""
+    for option in get_main_menu_options():
+        message += f"\n{option}"
+    return message
+
+
+def get_display_menu_options():
+    options_list = [
+        "1. Display by  part",
+        "2. Display by airplane",
+        "3. Back to main menu"
+    ]
+    return options_list
 
 def generate_display_menu():
     """
@@ -31,13 +50,21 @@ def generate_display_menu():
     """
     menu_title = "DISPLAY MENU"
     length = len(menu_title)
-    menu = f"""
+    message = f"""
 \n{'=' * length}\n{menu_title}\n{'=' * length}
-1. Display by  part
-2. Display by airplane
-3. Back to main menu
 """
-    return menu
+    for option in get_display_menu_options():
+        message += f"\n{option}"
+
+    return message
+
+def get_display_by_part_menu_options():
+    options_list = [
+        "1. Display part for all models",
+        "2. Display part for one model",
+        "3. Back to main display menu"      
+    ]
+    return options_list
 
 def generate_display_by_part_menu():
     """
@@ -48,13 +75,20 @@ def generate_display_by_part_menu():
     """
     menu_title = "DISPLAY PART MENU"
     length = len(menu_title)
-    menu = f"""
+    message = f"""
 \n{'=' * length}\n{menu_title}\n{'=' * length}
-1. Display part for all models
-2. Display part for one model
-3. Back to main display menu
 """
-    return menu
+    for option in get_display_by_part_menu_options():
+        message += f"\n{option}"
+    return message
+
+def get_display_by_model_menu_options():
+    options_list = [
+        "1. Display all parts by airplane",
+        "2. Display all parts for all airplanes",
+        "3. Back to main display menu"
+    ]
+    return options_list
 
 def generate_display_by_model_menu():
     """
@@ -65,13 +99,23 @@ def generate_display_by_model_menu():
     """
     menu_title = "DISPLAY BY AIRPLANE MENU"
     length = len(menu_title)
-    menu = f"""
+    message = f"""
 \n{'=' * length}\n{menu_title}\n{'=' * length}
-1. Display all parts by airplane
-2. Display all parts for all airplanes
-3. Back to main display menu
+
 """
-    return menu
+    for option in get_display_by_model_menu_options():
+        message += f"\n{option}"
+
+    return message
+
+def generate_model_options_menu():
+    print("generate_model_options_menu")
+
+def generate_system_options_menu():
+    print("generate_model_options_menu")
+
+def generate_inventory_properties_options_menu():
+    print("generate_inventory_properties_options_menu")
 
 
 def show_main_menu():

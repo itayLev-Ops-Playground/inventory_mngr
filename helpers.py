@@ -2,14 +2,13 @@
 # Includes functions for loading/saving data, displaying options, and getting user input.
 
 import json
+# import main as main
 
 
 DUMMY_DATA_PATH = "./dummy_data.json"
 DATA_BASE_PATH = "./data_base.json"
 
-
-
-# Data helpers
+### Data helpers ###
 def get_dummy_data():
     """
     Loads and returns the dummy data from the JSON file.
@@ -20,7 +19,7 @@ def get_dummy_data():
     with open(DUMMY_DATA_PATH, 'r') as dummy_data_file:
         dummy_data = json.load(dummy_data_file)
     return dummy_data
-# get_dummy_data()
+
 
 def get_data_base():
     """
@@ -32,7 +31,7 @@ def get_data_base():
     with open(DATA_BASE_PATH, 'r') as data_base_file:
         data_base = json.load(data_base_file)
     return data_base
-# get_data_base()
+
 
 def set_dummy_data(data):
     """
@@ -55,7 +54,7 @@ def set_data_base(data):
         json.dump(data, data_base_file)
 
 
-def get_systems_keys(user_input=''):
+def get_systems_options(user_input=''):
     """
     Retrieves the list of system keys based on user input.
 
@@ -96,102 +95,153 @@ def get_systems_keys(user_input=''):
         else:
             all_keys_list.append(key)
             systems_keys.append(key)
-    # Return systems devision by user choice
+
+    # Return systems devision by user choice (parameter)
     if user_input == 'peri':
         return periphral_systems_keys
     elif user_input == 'sys':
         return systems_keys
     else:
         return all_keys_list
-# print(get_systems_keys())
 
 
+def get_models_options():
+    """
+    Returns the list of model names from the dummy data JSON.
 
-# Menu interface helpers
+    Returns:
+        list[str]: Plane model identifiers, e.g. ['f-16', 'f-18'].
+    """
+    data = get_dummy_data()
+    model_options = []
+    for model in data:
+        model_options.append(model['model'])
+
+    return model_options
+
+
+def get_inventory_options():
+    """
+    Returns the fixed inventory property options available for selection.
+
+    Returns:
+        list[str]: Inventory metric keys ['available', 'gross', 'net-req'].
+    """
+
+    inventory_options = [
+        "available",
+        "gross",
+        "net-req"
+    ]
+    return inventory_options
+
+
+### Menu interface helpers ###
 def show_model_options():
     """
     Prints the list of available airplane models.
     """
-    data = get_dummy_data()
+    options_list = get_models_options()
     message = f"""
 """     
-    i = 0
-    for i in range(len(data)):
-        cur_model = data[i]['model']
-        message += f"{i+1}.{cur_model}\n"
+    i = 1
+    for option in options_list:
+        message += f"\n{i}.{option}"
         i += 1
-
     print(message)
-# show_model_options()
+
 
 def show_system_options():
     """
     Prints the list of available systems.
     """
+    options_list = get_systems_options()
     message = """
 """
     i = 1
-    for key in get_systems_keys():
-        message += f"{i}.{key}\n"
+    for option in options_list:
+        message += f"\n{i}.{option}"
         i += 1
     print(message)
-# show_system_options()
 
 
 def show_inventory_options():
     """
     Prints the inventory property options.
     """
-    message = "1.available 2.gross 3.net-req"
+    message = ""
+    i = 1
+    for option in get_inventory_options():
+        message += f"\n{i}.{option}"
+        i += 1
     print(message)
-# show_inventory_options()
 
 
-# Input helpers
-def intake_user_choice():
+### Input helpers ###
+def intake_user_choice(menu):
     """
-    Prompts the user to enter a choice and returns it as an integer.
+    Prompt the user to enter a numeric menu choice and validate it.
+
+    Args:
+        menu (list): A list of menu options used for range validation.
 
     Returns:
-        int: The user's choice.
+        int: The validated choice selected by the user (1-based index).
+
+    Behavior:
+        - On invalid non-integer input, prints a custom error and reprompts.
+        - On integer outside valid range, prints a range error and reprompts.
     """
-    try:
-        choice = int(input("Enter choice then press enter: "))
-        return choice
-    except ValueError as e:
-        print("Invalid choice! Please enter a numeric value.")
-        print(e)
+    while True:
+        try:
+            choice = int(input("\nEnter choice then press enter: "))
+
+            if choice < 1 or choice > len(menu):
+                raise Exception(f"\nInvalid choice\nPlease enter a number between 1 and {len(menu)}")
+
+            return choice
+        
+        except ValueError:
+            error_msg = "Invalid choice\nPlease enter a number not a letter"
+            print(error_msg)
+        except Exception as e:
+            print(e)
 
 
 def intake_airplane_model():
     """
-    Displays model options and prompts the user to select an airplane model.
+    Display model options, prompt user input, and return selection.
 
     Returns:
         str: The selected airplane model.
     """
     show_model_options()
-    choice = input("Enter airplane model in <f-XX> format: ")
+    menu = get_models_options()
+    choice = intake_user_choice(menu)
     return choice
+
 
 def intake_system():
     """
-    Displays system options and prompts the user to select a system.
+    Display system options, prompt user input, and return selection.
 
     Returns:
         str: The selected system.
     """
     show_system_options()
-    choice = str(input("Enter system name then press enter: "))
+    menu = get_systems_options()
+    choice = intake_user_choice(menu)
     return choice
         
+
 def intake_property():
     """
-    Displays inventory property options and prompts the user to select one.
+    Display inventory property options, prompt user input, and return selection.
 
     Returns:
-        str: The selected property.
+        str: The selected inventory property string.
     """
     show_inventory_options()
-    choice = str(input("Enter inventory property then press enter: "))
+    menu = get_inventory_options()
+    choice = intake_user_choice(menu)
     return choice
