@@ -23,7 +23,7 @@ from helpers import get_models_options as get_models_options
 
 
 
-
+### MENU LOGIC ###
 def display_menu():
     """
     Displays the main display menu and handles user choices for viewing inventory data.

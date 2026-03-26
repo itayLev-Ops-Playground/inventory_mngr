@@ -11,7 +11,7 @@ from helpers import get_systems_options as get_systems_options
 from helpers import get_dummy_data as get_dummy_data
 from helpers import set_dummy_data as set_dummy_data
 
-
+### MENU HANDLING ###
 def get_delete_menu_options():
     """
     Return the list of delete menu options.
@@ -58,6 +58,7 @@ def show_delete_menu():
     print(render_delete_menu())
 
 
+### MODULE METHODS ###
 def delete_model(model):
     """
     Delete an airplane model from the dummy data.
@@ -132,7 +133,7 @@ def delete_system(model, system):
     else:
         print("Aborted by the user")
 
-
+### MENU LOGIC ###
 def delete_menu():
     """
     Displays the delete menu and handles user choices for deleting models or systems.

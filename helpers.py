@@ -96,7 +96,7 @@ def get_systems_options(user_input=''):
             all_keys_list.append(key)
             systems_keys.append(key)
 
-    # Return systems devision by user choice (parameter)
+    # Return systems devision by parameter
     if user_input == 'peri':
         return periphral_systems_keys
     elif user_input == 'sys':

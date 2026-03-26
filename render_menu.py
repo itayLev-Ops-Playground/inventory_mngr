@@ -1,7 +1,8 @@
 # Module for rendering menu strings.
 # Contains functions to generate formatted menu text for various application menus.
 
-
+### MENU RENDERING METHODS ###
+### MAIN MENU ### 
 def get_main_menu_options():
     options_list = [
     "1. Display data",
@@ -35,7 +36,7 @@ def generate_main_menu():
 
     return message
 
-
+### DISPLAY MENU ###
 def get_display_menu_options():
     options_list = [
         "1. Display by  part",
@@ -67,7 +68,7 @@ def generate_display_menu():
 
     return message
 
-
+### DISPLAY MENU -> DISPLAY BY PART ###
 def get_display_by_part_menu_options():
     options_list = [
         "1. Display part for all models",
@@ -99,7 +100,7 @@ def generate_display_by_part_menu():
 
     return message
 
-
+### DISPLAY MENU -> DISPLAY BY MODEL ###
 def get_display_by_model_menu_options():
     options_list = [
         "1. Display all parts by airplane",
@@ -130,7 +131,7 @@ def generate_display_by_model_menu():
 
     return message
 
-
+### MENU METHODS PRINTING ###
 def show_main_menu():
     """Prints the main menu to the console."""
     print(generate_main_menu())

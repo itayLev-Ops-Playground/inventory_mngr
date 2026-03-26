@@ -12,7 +12,7 @@ from helpers import get_systems_options as get_systems_options # Gets a list of 
 from helpers import get_inventory_options as get_inventory_options # Gets a list of inventory properties (Hard coded)
 from helpers import intake_user_choice as intake_user_choice # Takes user input and validates type and range (relative to given menu) 
 
-
+### MODULE METHODS ###
 def update_inventory(model, system, property):
     """
     Updates the inventory for a specific model, system, and property.
@@ -57,7 +57,7 @@ def update_inventory(model, system, property):
                 break
     set_dummy_data(data)
 
-
+### MENU LOGIC ###
 def update_manu():
     """
     Displays the update menu and handles user choices for updating inventory.

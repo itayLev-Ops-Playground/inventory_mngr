@@ -9,7 +9,7 @@ from helpers import intake_user_choice as intake_user_choice
 from helpers import show_model_options as show_model_options
 from helpers import get_models_options as get_models_options
 
-
+### MENU HANDLING ###
 def get_add_menu_options():
     """
     Return the list of add menu options.
@@ -56,6 +56,7 @@ def show_add_menu():
     print(render_add_menu())
 
 
+### MODULE METHODS ###
 def add_new_airplane_model(new_model):
     """
     Add a new airplane model to the dummy data with optional default systems.
@@ -117,6 +118,7 @@ def add_new_inventory(model, new_system):
     print(f"New system {new_system} added to {model_options[model]} succesfully and added to dummy-data")
 
 
+### MENU LOGIC ###
 def add_menu():
     """
     Displays the add menu and handles user choices for adding models or systems.

@@ -6,6 +6,7 @@ from helpers import get_systems_options as get_systems_options
 from helpers import get_models_options as get_models_options
 
 
+### DISPLAY MENU METHODS ###
 def get_system_inventory_all(system):
     """
     Retrieves inventory data for a specific system across all airplane models.
@@ -31,8 +32,6 @@ def get_system_inventory_all(system):
                 
         inventory.append(cur_inventory)
     return inventory
-# get_system_inventory_all('engine')
-# get_system_inventory_all('landing-gear')
 
 
 def display_system_inventory_all(system):
@@ -55,9 +54,6 @@ GROSS: {model['gross']}
 NET-REQ: {model['net-req']}"""     
         print(message)
     print('\n'+'-' * 45)
-# display_system_inventory_all('engine')
-# display_system_inventory_all('landing-gear')
-# display_system_inventory_all(0)
 
 
 def get_system_inventory_by_model(model, system):
@@ -87,8 +83,6 @@ def get_system_inventory_by_model(model, system):
                 for property, status in cur_model['systems']['peripheral-systems'][cur_system].items():
                     inventory[property] = status
     return inventory
-# get_system_inventory_by_model('f-15', 'landing-gear')
-# get_system_inventory_by_model('f-15', 'air-frame')
 
 
 def display_system_inventory_by_model(model, system):
@@ -109,8 +103,6 @@ GROSS: {inventory['gross']}
 NET-REQ: {inventory['net-req']}"""     
     print(message)
     print('\n'+'-' * 45)
-# display_system_inventory_by_model('f-15', 'engine')
-# display_system_inventory_by_model('f-15', 'landing-gear')
 
 
 def display_by_model(model):
@@ -154,7 +146,6 @@ def get_all_systems_inventory_by_model(model):
     for cur_model in data:
         if cur_model['model'] == model_options[model]:
             inventory['model'] = cur_model['model']
-            # print(cur_model)
             for system, cur_inventory in cur_model['systems'].items():
                 if system == 'peripheral-systems':
                     for peripheral_system, peripheral_inventory in cur_model['systems']['peripheral-systems'].items():
@@ -166,7 +157,6 @@ def get_all_systems_inventory_by_model(model):
                     for property, status in cur_inventory.items():
                         inventory[system][property] = status
     return inventory
-# get_all_systems_inventory_by_model('f-15')
                     
             
 def display_all_systems_inventory_by_model(model):
@@ -176,7 +166,7 @@ def display_all_systems_inventory_by_model(model):
     Args:
         model (str): The airplane model.
     """
-    # model_options = get_models_options()
+
     data = get_all_systems_inventory_by_model(model)
 
     message = """
@@ -191,7 +181,6 @@ def display_all_systems_inventory_by_model(model):
             message += f"\n{property:20}|{info['available']:10}|{info['gross']:10}|{info['net-req']:10}"
     print(message)
     print('\n'+'-' * 45)
-# display_all_systems_inventory_by_model('f-16')
 
 
 def display_all_systems_inventory_for_all_airplanes():
@@ -206,7 +195,3 @@ def display_all_systems_inventory_for_all_airplanes():
         i += 1        
 
     print('\n'+'-' * 45)
-# display_all_systems_inventory_for_all_airplanes()
-
-
-

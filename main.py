@@ -17,14 +17,10 @@ from add import add_menu as add_menu
 from delete import delete_menu as delete_menu
 
 
-
-
-
-
-is_saved = False # set to true on user save, set to false on data change
+is_saved = False
 on = True
 
-# Initiate data in dummy-data
+# Initiate dummy-data to data-base 
 data_base = get_data_base()
 set_dummy_data(data_base)
 
@@ -40,7 +36,7 @@ while on:
     if user_choice == 1: # DISPLAY -> Display menu -> 1.By system menu, 2.By model menu
         display_menu()
         
-    if user_choice == 2: # UPDATE -> Choose model -> Choose system -> Choose inventory property -> Approve 
+    if user_choice == 2: # UPDATE -> Choose model -> Choose system -> Choose inventory property -> Approve
         update_manu()
 
     if user_choice == 3: # ADD -> 
@@ -60,11 +56,10 @@ while on:
         if is_saved:
             message = "Thank you for using INVENTORY MNGR"
             print(f"\n\n{'=' * len(message)}\n{message}\n{'=' * len(message)}\n\n")
-            on = False
         else:
-            exit_choice = input("\n* The changes you maid were not saved are you sure you want to exit?\nEnter S to save or enter to exit INVENTORY MNGR").lower()
-            if exit_choice == 's':
+            exit_save_choice = input("\n* The changes you maid were not saved !\nDo you want to save the changes ?\nEnter YES to save or NO to exit INVENTORY MNGR.\n").lower()
+            if exit_save_choice == 'YES':
                 set_data_base(dummy_data)
-                is_saved = True
+
         on = False
         
