@@ -1,6 +1,8 @@
 # Module for adding new airplane models and systems to the inventory.
 # Contains functions to render menus, display options, and perform add operations.
 
+# User will have an option any given time to select 0 and to go back to the menu.
+
 from helpers import get_dummy_data as get_dummy_data
 from helpers import set_dummy_data as set_dummy_data
 from helpers import intake_user_choice as intake_user_choice
