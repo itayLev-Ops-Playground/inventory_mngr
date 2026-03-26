@@ -1,6 +1,8 @@
 # Module for adding new airplane models and systems to the inventory.
 # Contains functions to render menus, display options, and perform add operations.
 
+# User will have an option any given time to select 0 and to go back to the menu.
+
 from helpers import get_dummy_data as get_dummy_data
 from helpers import set_dummy_data as set_dummy_data
 from helpers import intake_user_choice as intake_user_choice
@@ -42,7 +44,7 @@ def render_add_menu():
     for option in get_add_menu_options():
         message += f"\n{i}. {option}"
         i += 1
-    message += "\n\n99 to go back to menu at any stage"
+    message += "\n\n0 to go back to menu at any stage"
 
     return message
 
@@ -67,7 +69,7 @@ def add_new_airplane_model(new_model):
     new_data = {'model': new_model}
     data.append(new_data)
 
-    if new_model == 99: return 99
+    if new_model == 0: return 0
 
     continue_choice = input("Enter Y to initialize the new model with default data or press enter to abort: ").lower()
     if continue_choice == 'y':
@@ -130,7 +132,7 @@ def add_menu():
         if add_menu_user_choice == 1: # Add new model -> (Option to intiate with data or leave model empty)
             new_model = input("Enter new airplane model to add: ")
             print(new_model)
-            if new_model == str(99):
+            if new_model == str(0):
                 print("Aborted")
                 add_menu()
                 break
@@ -147,14 +149,14 @@ def add_menu():
             model_options = get_models_options()
             model = intake_user_choice(model_options)
 
-            if model == 99:
+            if model == 0:
                 print("Aborted")
                 add_menu()
                 break
 
             new_system = input("Enter new system to add: ")
 
-            if new_system == str(99):
+            if new_system == str(0):
                 print("Aborted")
                 add_menu()
                 break
