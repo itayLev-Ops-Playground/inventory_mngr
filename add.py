@@ -3,6 +3,7 @@
 
 # User will have an option any given time to select 0 and to go back to the menu.
 
+from helpers import update_net_req as update_net_req
 from helpers import get_dummy_data as get_dummy_data
 from helpers import set_dummy_data as set_dummy_data
 from helpers import intake_user_choice as intake_user_choice
@@ -44,7 +45,7 @@ def render_add_menu():
     for option in get_add_menu_options():
         message += f"\n{i}. {option}"
         i += 1
-    message += "\n\n0 to go back to menu at any stage"
+    message += "\n\n99 to go back to menu at any stage"
 
     return message
 
@@ -89,6 +90,7 @@ def add_new_airplane_model(new_model):
     save_data_choice = input("The data is ready\nAre you sure you want to add it to the dummy-data?\nEnter Y for yes or press enter to abort: ").lower()
     if save_data_choice == 'y':
         set_dummy_data(data)
+        update_net_req()
 
     print(f"New airplane {new_model} succesfully added to dummy-data")
 
@@ -103,19 +105,21 @@ def add_new_inventory(model, new_system):
 
     Initializes the new system with default inventory values.
     """
+    
     data = get_dummy_data()
     model_options = get_models_options()
-    model -= 1
+    cur_model = model_options[model - 1]
 
     for i in range(len(data)):
-        if data[i]['model'] == model:
+        if data[i]['model'] == cur_model:
             new_inventory = {new_system: {"available": 50, "gross": 100, "net-req": 70}}
             data[i]['systems'].update(new_inventory)
         i += 1
-    save_data_choice = input("The data is ready\nAre you sure you want to add it to the dummy-data?\nEnter y for yes or press enter to abort: ")
+    save_data_choice = input("The data is ready\nAre you sure you want to add it to the dummy-data?\nEnter y for yes or press enter to abort: ").lower()
     if save_data_choice == 'y':
         set_dummy_data(data)
-    print(f"New system {new_system} added to {model_options[model]} succesfully and added to dummy-data")
+        update_net_req()
+    print(f"New system {new_system} added to {cur_model} succesfully and added to dummy-data")
 
 
 ### MENU LOGIC ###
@@ -134,14 +138,14 @@ def add_menu():
         if add_menu_user_choice == 1: # Add new model -> (Option to intiate with data or leave model empty)
             new_model = input("Enter new airplane model to add: ")
             print(new_model)
-            if new_model == str(0):
+            if new_model == str(99):
                 print("Aborted")
                 add_menu()
                 break
 
             add_new_airplane_model(new_model)
 
-            continue_choice = input("Enter Y to update another inventory or press enter to go back to main menu: ").lower()
+            continue_choice = input("Enter Y to update another inventory or press enter to go back to menu: ").lower()
             if continue_choice == 'y':
                 add_menu()
         
@@ -151,14 +155,14 @@ def add_menu():
             model_options = get_models_options()
             model = intake_user_choice(model_options)
 
-            if model == 0:
+            if model == 99:
                 print("Aborted")
                 add_menu()
                 break
 
             new_system = input("Enter new system to add: ")
 
-            if new_system == str(0):
+            if new_system == str(99):
                 print("Aborted")
                 add_menu()
                 break

@@ -2,6 +2,7 @@
 # Module for updating inventory data.
 # Contains functions to modify system inventory values for specific models.
 
+from helpers import update_net_req as update_net_req
 from helpers import show_model_options as show_model_options # Renders model options
 from helpers import show_system_options as show_system_options # Renders model options
 from helpers import show_inventory_options as show_inventory_options # Renders model options
@@ -56,6 +57,7 @@ def update_inventory(model, system, property):
                 print("Action aborted going back to main menu")
                 break
     set_dummy_data(data)
+    update_net_req()
 
 ### MENU LOGIC ###
 def update_manu():

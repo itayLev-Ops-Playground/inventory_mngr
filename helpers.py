@@ -2,8 +2,6 @@
 # Includes functions for loading/saving data, displaying options, and getting user input.
 
 import json
-# import main as main
-
 
 DUMMY_DATA_PATH = "./dummy_data.json"
 DATA_BASE_PATH = "./data_base.json"
@@ -16,6 +14,7 @@ def get_dummy_data():
     Returns:
         list: The dummy data list.
     """
+    
     with open(DUMMY_DATA_PATH, 'r') as dummy_data_file:
         dummy_data = json.load(dummy_data_file)
     return dummy_data
@@ -42,6 +41,7 @@ def set_dummy_data(data):
     """
     with open(DUMMY_DATA_PATH, 'w') as dummy_data_file:
         json.dump(data, dummy_data_file)
+    
 
 def set_data_base(data):
     """
@@ -52,6 +52,23 @@ def set_data_base(data):
     """
     with open(DATA_BASE_PATH, 'w') as data_base_file:
         json.dump(data, data_base_file)
+
+
+def update_net_req():
+    """
+    Updates the 'net-req' for all systems in the dummy data by calculating gross - available.
+    Handles both top-level systems and nested peripheral-systems.
+    Saves the updated data back to dummy_data.json.
+    """
+    data = get_dummy_data()
+    for model in data:
+        for key, system in model['systems'].items():
+            if key == 'peripheral-systems':
+                for sub_key, sub_system in system.items():
+                    sub_system['net-req'] = sub_system['gross'] - sub_system['available']
+            else:
+                system['net-req'] = system['gross'] - system['available']
+    set_dummy_data(data)
 
 
 def get_systems_options(user_input=''):

@@ -68,10 +68,10 @@ def display_system_inventory_all(system):
         title = f"Inventory status for {model['model']} {system_options[system]}"
         print(f"\n\n{'=' * len(title)}\n{title}\n{'=' * len(title)}")
         message += f"""
-        AVAILABLE: {model['available']}
-        GROSS: {model['gross']}
-        NET-REQ: {model['net-req']}
-        """
+AVAILABLE: {model['available']}
+GROSS: {model['gross']}
+NET-REQ: {model['net-req']}
+"""
         alert_condition = model['gross'] / 2 < model['net-req']
         if alert_condition:
             message += f"\n\n{'!' * 45}\nALERT: Inventory is insufficient!\n{'!' * 45}"
@@ -124,6 +124,9 @@ def display_system_inventory_by_model(model, system):
 AVAILABLE: {inventory['available']}
 GROSS: {inventory['gross']}
 NET-REQ: {inventory['net-req']}"""     
+    alert_condition = inventory['gross'] / 2 < inventory['net-req']
+    if alert_condition:
+        message += f"\n\n{'!' * 45}\nALERT: Inventory is insufficient!\n{'!' * 45}"
     print(message)
     print('\n'+'-' * 45)
 
